@@ -24,4 +24,4 @@ ln -sfn "$HERE/skills/product_knowledge.md" "$HARVEY/skills/product_knowledge.md
 
 cd "$HARVEY"
 .venv/bin/harvey status --check
-echo "Done. Next: cd outreach/harvey && source .venv/bin/activate && harvey signals --confirm free"
+echo "Done. Next: cd outreach/harvey && source .venv/bin/activate && harvey signals --confirm HIRING_ROLE,OPEN_ROLES,CONTACT_FOUND,DECISION_MAKER_TITLE,LIKELY_OWNER,EMAIL_STATUS"
