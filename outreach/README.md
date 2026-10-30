@@ -19,7 +19,7 @@ cd outreach/harvey && source .venv/bin/activate
 harvey signals --confirm HIRING_ROLE,OPEN_ROLES,CONTACT_FOUND,DECISION_MAKER_TITLE,LIKELY_OWNER,EMAIL_STATUS
 ```
 
-Windows: same steps by hand, with `.venv\Scripts\activate`. Python 3.11+.
+Windows: `powershell -ExecutionPolicy Bypass -File outreach\setup.ps1`, then `.venv\Scripts\activate`. Python 3.11+.
 
 Then `.env` in `outreach/harvey/` needs, at minimum, the Gmail OAuth client (`GMAIL_CLIENT_ID`, `GMAIL_CLIENT_SECRET`, then `harvey gmail auth`) and one verifier key (`REOON_API_KEY` is the best free tier). Discovery works best with `SERPER_API_KEY` or DataForSEO; OpenStreetMap covers contractors poorly.
 
