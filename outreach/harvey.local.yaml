@@ -6,7 +6,7 @@ persona:
   name: "Omar Sobeih"
   company: "Gridline Project Controls"   # TODO Omar: confirm this matches LinkedIn before any campaign
   role: "Principal Scheduler"
-  email: ""                              # TODO Omar: dedicated sending mailbox on a secondary domain
+  email: "omarthescheduler@gmail.com"    # free Gmail, kept separate from the main inbox
   linkedin: ""
   tone: "firm, plain, field-practical, like a busy scheduler talking to a busy contractor"
 
