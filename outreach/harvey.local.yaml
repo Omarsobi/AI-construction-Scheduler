@@ -1,0 +1,97 @@
+# Omar Sobeih's Harvey config. Harvey reads this file INSTEAD of harvey.yaml
+# (no merge), so every section is here. Symlinked into outreach/harvey/ by setup.sh.
+# Rules: no sending without approval, no LinkedIn automation, no rates in email.
+
+persona:
+  name: "Omar Sobeih"
+  company: "Gridline Project Controls"   # TODO Omar: confirm this matches LinkedIn before any campaign
+  role: "Principal Scheduler"
+  email: ""                              # TODO Omar: dedicated sending mailbox on a secondary domain
+  linkedin: ""
+  tone: "firm, plain, field-practical, like a busy scheduler talking to a busy contractor"
+
+product:
+  name: "Remote Scheduling and Project Controls"
+  description: "Remote P6 and MS Project scheduling, schedule reviews, project controls reporting, quantity takeoffs and CM support for US contractors, delivered as a simple B2B contract."
+  pricing: ""          # never quoted in email; Omar gives rates himself after scoping
+  key_benefits:
+    - "P6 and MS Project baselines, monthly updates, recovery schedules and look-aheads without adding payroll"
+    - "Schedule reviews with DCMA 14-point checks and written comments for owners and CMs"
+    - "Takeoffs and bid-phase schedules billed per package during bid season"
+    - "Project controls reporting: S-curves, manpower histograms, earned value, long-lead tracking"
+  objection_responses:
+    "send rates": "Happy to. What is the project size, P6 or MS Project, and how often do you need updates? Omar will reply with a number once he knows the scope."
+    "need onsite or US-based": "Understood. Omar works remotely only. If overflow scheduling or reviews ever need covering remotely, he is glad to help. Otherwise, thanks for your time."
+    "not right now": "Thanks for letting me know. Is it fine to check back next quarter?"
+    "already have a scheduler": "Good to hear. Most firms that use Omar keep their scheduler and hand him the overflow, updates or reviews. If that ever comes up, he is a message away."
+  offer:
+    primary: "Remote scheduling and project controls as a B2B contract: per project, monthly retainer, or dedicated full time"
+    entry: ""
+    goal: "book_call"
+    booking_method: "suggest_times"
+    booking_url: ""
+    meeting_duration: "15 minutes"
+    meeting_owner: "Omar Sobeih"
+
+icp:
+  industries:
+    - "General Contractor"
+    - "Construction Management"
+    - "Owner's Representative"
+    - "MEP Subcontractor"
+    - "Specialty Subcontractor"
+    - "Data Center Construction"
+  company_size: "2-200 employees"
+  titles:
+    - "Owner"
+    - "President"
+    - "Principal"
+    - "VP Operations"
+    - "VP Preconstruction"
+    - "Director of Operations"
+    - "Chief Estimator"
+    - "Project Executive"
+  geography:
+    - "United States"              # TODO Omar: narrow to the first target states, e.g. "Austin, TX"
+  hiring_signals:
+    - "Scheduler"
+    - "Project Scheduler"
+    - "Planning Engineer"
+    - "Project Controls"
+    - "Scheduling Manager"
+
+channels:
+  email:
+    enabled: true
+    provider: "gmail"
+    max_daily_sends: 15
+    require_approval: true           # never set false
+    send_to_risky: false
+    max_bounce_rate: 0.05
+    warmup:
+      start_date: ""                 # TODO Omar: the day warmup starts on the new mailbox
+      min_days: 14
+      start_sends: 5
+      daily_increase: 3
+    send_window:
+      start: "08:00"
+      end: "17:00"
+      weekdays_only: true
+      recipient_timezone: true
+  linkedin:
+    enabled: false                   # never set true; LinkedIn is done by hand
+
+usage:
+  max_daily_claude_percent: 35       # protect Omar's Claude quota for client work
+  heartbeat_interval_minutes: 15
+  quiet_hours:
+    start: "22:00"
+    end: "07:00"
+    timezone: "America/New_York"
+
+compliance:
+  postal_address: ""                 # TODO Omar: real mailing address for the CAN-SPAM footer
+  opt_out_line: 'Not relevant for your team? Reply "no thanks" and I won''t email again.'
+  do_not_contact: []                 # TODO Omar: domains of current clients and warm contacts
+  precleared:
+    enabled: false

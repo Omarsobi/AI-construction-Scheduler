@@ -1,0 +1,45 @@
+diff --git a/harvey/agents/writer.py b/harvey/agents/writer.py
+index 82b073b..fd09de6 100644
+--- a/harvey/agents/writer.py
++++ b/harvey/agents/writer.py
+@@ -420,15 +420,14 @@ Pricing: {self.config.product.pricing}"""
+ 
+         prompt += f"""
+ 
+-Write a 3-email cold outreach sequence for prospects like these:
++Write a 2-email cold outreach sequence for prospects like these:
+ {fence(prospect_summary, "sample prospects")}
+ 
+ {UNTRUSTED_RULE}
+ 
+ Requirements:
+ - Email 1: Personalized cold observation + one question. Under 75 words. No pitch.
+-- Email 2: Follow-up 3 days later. Different angle, one concrete proof point. Under 75 words.
+-- Email 3: Break-up email 4 days after that. Under 40 words. Gracious, not guilt-tripping.
++- Email 2: The only follow-up, 7 days later. One new angle or one concrete point, then the same single ask. Under 75 words. No third email.
+ {merge_rule}
+ - Never be pushy or salesy. Be consultative and value-driven.
+ - Subject lines: lowercase, 2-5 words.
+@@ -438,8 +437,7 @@ Requirements:
+ Return ONLY a JSON array (no markdown fences, no commentary):
+ [
+   {{"step": 1, "subject": "...", "body": "...", "delay_days": 0}},
+-  {{"step": 2, "subject": "...", "body": "...", "delay_days": 3}},
+-  {{"step": 3, "subject": "...", "body": "...", "delay_days": 4}}
++  {{"step": 2, "subject": "...", "body": "...", "delay_days": 7}}
+ ]"""
+ 
+         result = await self.brain.think_json(
+@@ -510,8 +508,10 @@ Return ONLY a JSON array (no markdown fences, no commentary):
+         if steps and steps[0].delay_days != 0:
+             steps[0].delay_days = 0  # first email always sends immediately
+ 
+-        if len(steps) < 3:
+-            logger.warning(f"Writer: Expected 3 emails, got {len(steps)}.")
++        # One follow-up maximum per pitch: drop anything past the second email.
++        del steps[2:]
++        if len(steps) < 2:
++            logger.warning(f"Writer: Expected 2 emails, got {len(steps)}.")
+         return steps
+ 
+     def _group_prospects(self, prospects: list) -> dict[str, list]:
