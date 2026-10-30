@@ -1,6 +1,9 @@
 # Windows equivalent of setup.sh. Run in PowerShell from the repo:  powershell -ExecutionPolicy Bypass -File outreach\setup.ps1
 # Needs: Git for Windows, Python 3.11+, Claude Code logged in (claude login).
 $ErrorActionPreference = "Stop"
+$v = (& python --version 2>&1)
+if ($LASTEXITCODE -ne 0 -or "$v" -notmatch "Python 3\.1[1-9]") { throw "Python 3.11+ not found. Install from python.org and tick 'Add python.exe to PATH', then reopen PowerShell. Got: $v" }
+if ($PSScriptRoot -like "C:\Windows\*") { throw "Do not run from C:\Windows. Clone the repo into your user folder, e.g. cd `$HOME" }
 $Here = $PSScriptRoot
 $Harvey = Join-Path $Here "harvey"
 $Pin = "4237f07f5873e270c362b43aec76e60fc4faa9cf"
