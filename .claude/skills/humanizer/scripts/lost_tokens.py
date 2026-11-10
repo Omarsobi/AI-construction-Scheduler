@@ -17,6 +17,14 @@ BODY = re.compile(r"(word/(document|header\d*|footer\d*|footnotes|endnotes|comme
                   r"|ppt/(slides/slide|notesSlides/notesSlide)\d+"
                   r"|xl/(sharedStrings|worksheets/sheet\d+)|charts/chart\d+)\.xml$")
 TOKEN = re.compile(r"[$€£]?[A-Za-z]*\d(?:[\w/:%-]|[.,](?=\w))*")
+# Generation artifacts are stripped before tokenizing so the digits inside a
+# removed citation token are not reported as lost numbers.
+ART = re.compile(r":?contentReference\[oaicite:\d+\]\{index=\d+\}|\[?oaicite:\d+\]?"
+                 r"|\[?oai_citation(?:_attribution)?:\d+[^\]\s]{0,60}\]?"
+                 r"|\{\"attribution\":\s*\{\"attributableIndex\":\s*\"[^\"\r\n]{0,40}\"\}\}"
+                 r"|【\d+(?::\d+)?†[^】\r\n]{1,120}】"
+                 r"|(?<![A-Za-z0-9])(?:cite)?turn\d+(?:search|news|view|fetch|image|file)\d+(?![A-Za-z0-9])"
+                 r"|[&?]?utm_source=(?:chatgpt\.com|openai)(?![A-Za-z0-9.-])|[\ue200-\ue2ff]")
 
 
 def _text(xml):
@@ -36,7 +44,8 @@ def body(path):
 
 
 def lost(original, revised):
-    return sorted(set(TOKEN.findall(body(original))) - set(TOKEN.findall(body(revised))))
+    a, b = ART.sub("", body(original)), ART.sub("", body(revised))
+    return sorted(set(TOKEN.findall(a)) - set(TOKEN.findall(b)))
 
 
 def main():
@@ -48,5 +57,13 @@ def main():
     return 1 if items else 0
 
 
+def _selfcheck():
+    assert ART.sub("", "x contentReference[oaicite:2]{index=2} y") == "x  y"
+    assert ART.sub("", "a turn0search3 b 【4†source】 c oaicite:4") == "a  b  c "
+    assert ART.sub("", "u?rev=3&utm_source=chatgpt.com#s4") == "u?rev=3#s4"
+    assert TOKEN.findall("15-May-26 EGC-LTR-0142 0.15% $1,200") == ["15-May-26", "0142", "0.15%", "$1,200"]
+
+
 if __name__ == "__main__":
+    _selfcheck()
     sys.exit(main())
